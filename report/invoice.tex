@@ -1,0 +1,138 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{invoice_ar}
+\usepackage{draftwatermark}
+
+\generatedby{Generado con \LaTeX{} desde \emph{OpenERP}}
+
+\begin{document}
+
+<%!
+    import re
+
+    def take(p, s):
+        if not s: return False
+        m = re.search(p, s)
+        return m and m.group(1) or False
+
+    def flatdate(d):
+        return d.replace('-', '')
+
+    def is_class(o, cls):
+        r = o.journal_id.journal_class_id.document_class_id.name in cls
+        return r
+
+    def cuit_format(c):
+	cuit_string = '{0}-{1}-{2}'.format(c[:2], c[2:-1], c[-1]) if len(c)>4 else c
+        return cuit_string
+
+%>
+
+% for o in objects:  
+
+% for replica in ['ORIGINAL','DUPLICADO','TRIPLICADO']:  
+
+\begin{invoice}
+
+% if o.state=="draft":
+	\SetWatermarkText{BORRADOR}
+	\SetWatermarkLightness{0.8}
+%else:
+	\SetWatermarkText{}
+	\SetWatermarkLightness{1}
+% endif
+
+%% INVOICE INFORMATION
+	\logo{${helper.putImage(company.logo, scale=0.3)}}
+	\name{${company.name}}
+	\document{${company.partner_id.document_type_id.name}}{${cuit_format(company.partner_id.document_number)}}
+	\address{${ 
+		', '.join( "\mbox{%s}" % x for x in [
+		company.partner_id.street or 'ERROR!',
+		company.partner_id.street2  or None,
+		company.partner_id.city or None,
+		company.partner_id.state_id and company.partner_id.state_id.name or None,
+		company.partner_id.country_id and company.partner_id.country_id.name or None 
+		] if x is not None )
+	}}
+	\taxiibb{${company.partner_id.iibb}}
+	\taxcondition{${company.partner_id.responsability_id.name}}
+	\activityinit{${formatLang(company.partner_id.start_date, date=True)}}
+
+	\replica{${replica}}
+	\codename{${o.journal_id.journal_class_id.document_class_id.name}}
+	\codeid{${'%02i' % o.journal_id.journal_class_id.afip_code}}
+	\type{${(o.journal_id.journal_class_id.name.split('[')[0]).strip()}}
+	\pointofsale{${'%04i' % o.journal_id.point_of_sale}}
+	\invnumber{${'%08i' % int(take(r'-(.*)\\', o.number))}}
+	\date{${formatLang(o.date_invoice, date=True) or 'Sin emitir'}}
+	\servicerange{${formatLang(o.afip_service_start, date=True)}}{${formatLang(o.afip_service_end, date=True)}}
+	\paydue{${formatLang(o.date_due, date=True)}}
+	%% Foot
+	\subtotal{${formatLang(o.amount_untaxed)}}
+	\vatamount{${formatLang(o.amount_tax)}}
+	\taxamount{${formatLang(0)}}
+	\total{${formatLang(o.amount_total)}}
+	\currency{${o.currency_id.name}}
+	\currencysymbol{${o.currency_id.symbol if not '$' else '\\$'}}
+	\paymenterm{${o.payment_term and o.payment_term.name}}
+	\comment{${(o.comment or '-') | tex}}
+	\authorized{Comprobante${ (o.afip_cae and ' ') or ' No '}autorizado.}
+	\cbu{${company.bank_ids and company.bank_ids[0].acc_number}}
+	\bank{${company.bank_ids and company.bank_ids[0].bank.name}}
+	\cae{${o.afip_cae or '-'}}
+	\caedue{${formatLang(o.afip_cae_due, date=True) or '-'}}
+	<% barcode = "%s%02i%04i%014i%08i" % (
+		company.partner_id.document_number,
+		o.journal_id.journal_class_id.afip_code,
+		o.journal_id.point_of_sale,
+		int(o.afip_cae or 0),
+		int(o.afip_cae_due!='False' and flatdate(o.afip_cae_due) or 0)
+		) %>
+	<% barcode =  "%s%i" % (barcode, sum( a*b for a,b in zip([3,1]*((len(barcode)/2)+1), map(int,barcode)) ) % 10) %>
+	\barcode{${barcode}} 
+
+	\customername{${o.partner_id.name}}
+	\customeraddress{${
+		', '.join( "\mbox{%s}" % x for x in [
+		o.partner_id.street or 'ERROR!',
+		o.partner_id.street2  or None,
+		o.partner_id.city or None,
+		o.partner_id.state_id and company.partner_id.state_id.name or None,
+		o.partner_id.country_id and company.partner_id.country_id.name or None 
+		] if x is not None )
+	}}
+	\customerdocument{${o.partner_id.document_type_id.name}}%
+			 {${cuit_format(o.partner_id.document_number) if o.partner_id.document_type_id.name == "CUIT" else o.partner_id.document_number}}
+	\customertaxcondition{${o.partner_id.responsability_id.name}}
+
+%% TAXES
+
+%for t in o.tax_line:
+	\tax{${t.tax_code_id.name | tex}}{${formatLang(t.amount)}}
+% endfor
+
+\startdetail
+
+<% subtotal = 0 %>
+
+% for l in o.invoice_line:
+	\line{${l.name}}
+	     {${formatLang(l.quantity)}}
+	     {${l.uos_id.name}}
+	     {${formatLang(l.price_calc(use_vat=not is_class(o, 'A'), quantity=1, discount=0)[l.id])}}
+	     {${l.discount and formatLang(l.discount) or '0'}}
+	     {${l.discount and formatLang(l.price_calc(use_vat=not is_class(o, 'A'), discount=l.discount)[l.id]) or '0'}}
+	     {${formatLang(l.price_calc(use_vat=not is_class(o, 'A'))[l.id])}}
+	     {${subtotal}}
+	<% subtotal = subtotal + l.price_calc(use_vat=not is_class(o, 'A'))[l.id] %>
+% endfor
+
+\end{invoice}
+
+% endfor
+
+% endfor
+
+\end{document}
+

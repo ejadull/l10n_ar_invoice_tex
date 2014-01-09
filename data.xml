@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data noupdate="1">
+	<report id="account.account_invoices_fe"
+		string="Electronic Invoice"
+		model="account.invoice"
+		report_type="latex"
+		name="latex_invoice.print"
+		rml="latex-invoice-l10n-ar/report/invoice.tex"
+		menu="True"
+		auto="False"
+		header="False"
+		attachment="(object.state in ('open','paid')) and ('DOC'+(object.number or '').replace('/','')+'.pdf')"
+		attachment_use="1"/>
+    </data>
+</openerp>
