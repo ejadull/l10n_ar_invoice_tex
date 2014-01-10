@@ -32,7 +32,7 @@
     'auto_install': False,
     'category': 'Reporting',
     'data': ['data.xml'],
-    'depends': ['report_latex'],
+    'depends': ['report_latex', 'l10n_ar_wsafip_fe'],
     'description': '\n\n',
     'installable': True,
     'name': 'Invoice Latex Report Engine for Argentina',

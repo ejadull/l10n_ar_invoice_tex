@@ -14,6 +14,8 @@
 \RequirePackage[code=2/5-Interleaved,X=0.250mm,H=1.0cm]{makebarcode}
 \RequirePackage{rerunfilecheck}
 \RequirePackage{marvosym}
+\RequirePackage{textcomp}
+\RequirePackage{txfonts}
 
 \def\generatedby#1{\def\inv@generatedby{#1}}
 \generatedby{Generado con \LaTeX{}}
@@ -36,7 +38,7 @@
     & \parbox[p]{\dimexpr0.5\columnwidth-5\tabcolsep-1.5cm}{
       \vspace{5px} \Huge{\inv@type} \\
       \vspace{2pt} \\
-      \small{Punto de Venta: \inv@pointofsale - Comp. Nro: \inv@id} \\
+      \small{Punto de Venta: \inv@pointofsale - Comp. \textnumero: \inv@id} \\
       \small{Fecha de Emisión} : \inv@date} \\
     \end{tabular}
     \\
@@ -158,18 +160,18 @@
         \smallskip
         El presente documento expresa su monto en {\inv@currency} ({\inv@currencysymbol}). \\
         \smallskip
-        \ifx\inv@paymenterm\empty
-        Termino de pago: {\inv@paymenterm} \\
+        \ifx\inv@paymenterm\empty\else
+        Término de pago: {\inv@paymenterm} \\
         \fi
         \vfill
-        \if\inv@comment
+        \ifx\inv@comment\empty\else
         \textbf{Información adicional} \\
         \inv@comment \\
         \fi
-        \if\inv@cbu
+        \ifx\inv@cbu\empty\else
         \textbf{Información Bancaria} \\
         CBU: {\inv@cbu} \\
-        \if\inv@bank
+        \ifx\inv@bank\empty\else
         Entidad Bancaria: {\inv@bank} \\
         \fi
         \fi

@@ -69,7 +69,7 @@
 	\servicerange{${formatLang(o.afip_service_start, date=True)}}{${formatLang(o.afip_service_end, date=True)}}
 	\paydue{${formatLang(o.date_due, date=True)}}
 	%% Foot
-	\subtotal{${formatLang(o.amount_untaxed)}}
+	\subtotal{${formatLang(o.amount_untaxed if not is_class(o, 'BC') else o.amount_total)}}
 	\vatamount{${formatLang(o.amount_tax)}}
 	\taxamount{${formatLang(0)}}
 	\total{${formatLang(o.amount_total)}}
@@ -108,9 +108,11 @@
 
 %% TAXES
 
-%for t in o.tax_line:
+% if not is_class(o, 'BC'):
+  %for t in o.tax_line:
 	\tax{${t.tax_code_id.name | tex}}{${formatLang(t.amount)}}
-% endfor
+  % endfor
+% endif
 
 \startdetail
 
