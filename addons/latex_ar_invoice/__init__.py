@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2010 Moldeo Interactive (http://moldeo.coop)
+# Copyright (c) 2014 Coop. Trab. Moldeo Interactive Ltda. (http://moldeo.coop) 
 # All Right Reserved
 #
 # Author : Cristian S. Rocha (Moldeo Interactive)
@@ -15,7 +15,7 @@
 #
 # This program is Free Software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -28,14 +28,5 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 ##############################################################################
-{   'author': 'Cristian S. Rocha',
-    'auto_install': False,
-    'category': 'Reporting',
-    'data': ['data.xml'],
-    'depends': ['report_latex', 'l10n_ar_wsafip_fe'],
-    'description': '\n\n',
-    'installable': True,
-    'name': 'Invoice Latex Report Engine for Argentina',
-    'url': 'http://moldeo.coop/',
-    'version': '0.1'}
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
