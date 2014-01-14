@@ -70,8 +70,6 @@
 	\paydue{${formatLang(o.date_due, date=True)}}
 	%% Foot
 	\subtotal{${formatLang(o.amount_untaxed if not is_class(o, 'BC') else o.amount_total)}}
-	\vatamount{${formatLang(o.amount_tax)}}
-	\taxamount{${formatLang(0)}}
 	\total{${formatLang(o.amount_total)}}
 	\currency{${o.currency_id.name}}
 	\currencysymbol{${o.currency_id.symbol if not '$' else '\\$'}}

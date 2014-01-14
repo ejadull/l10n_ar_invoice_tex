@@ -181,7 +181,6 @@
           \noalign{\vspace{4pt}}
           Subtotal:               & {\inv@subtotal}  & {\inv@currencysymbol} \\
           \inv@taxes                                                         % Print list of VATs
-          Importe Otros Tributos: & {\inv@taxamount} & {\inv@currencysymbol} \\
           Total:                  & {\inv@total}     & {\inv@currencysymbol} \\
           \noalign{\vspace{4pt}}
       \end{tabular}\\
@@ -317,12 +316,6 @@
   
   \gdef\inv@subtotal{Please setup \emph{subtotal}}
   \def\subtotal##1{\gdef\inv@subtotal{##1}}
-  
-  \gdef\inv@vatamount{Please setup \emph{vatamount}}
-  \def\vatamount##1{\gdef\inv@vatamount{##1}}
-  
-  \gdef\inv@taxamount{Please setup \emph{taxamount}}
-  \def\taxamount##1{\gdef\inv@taxamount{##1}}
   
   \gdef\inv@total{Please setup \emph{total}}
   \def\total##1{\gdef\inv@total{##1}}
