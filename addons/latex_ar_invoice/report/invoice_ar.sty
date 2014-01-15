@@ -16,7 +16,6 @@
 \RequirePackage{marvosym}
 \RequirePackage{textcomp}
 \RequirePackage{txfonts}
-\RequirePackage{etoolbox}
 \RequirePackage{transparent}
 \RequirePackage{colortbl}
 
@@ -28,8 +27,6 @@
 
 \def\generatedby#1{\def\inv@generatedby{#1}}
 \generatedby{Generado con \LaTeX{}}
-
-\newtoggle{inv@begin}
 
 %% MACRO \inv@header
 %
@@ -44,6 +41,7 @@
       \parbox[p]{\dimexpr0.5\columnwidth-5\tabcolsep-1.5cm}{\centering \inv@logo} 
     & \parbox[p]{1.5cm}{\centering \Huge{\inv@codename} \\ \tiny{cod. \inv@codeid} }
     & \hspace*{5pt}\parbox[p]{\dimexpr0.5\columnwidth-5\tabcolsep-1.5cm}{
+      \vspace{5pt}
       \Huge{\inv@type} ~\\
       \small{Punto de Venta: \inv@pointofsale \hspace*{0.5cm} Comp. \textnumero: \inv@id} \\
       \small{Fecha de Emisión} : \inv@date
@@ -103,7 +101,8 @@
       Precio Unit. &
       Bonif. &
       Imp. Bonif. &
-      Subtotal
+      Subtotal \tabularnewline
+    \hline
     \end{tabular}
   }
 }
@@ -116,7 +115,7 @@
 %\newcommand \linefill {\leavevmode \cleaders \hb@xt@ .40em{\hss .\hss }\hfill \kern \z@}
 
 \def\inv@line#1#2#3#4#5#6#7{
-  \transparent{0.6}%
+  \vbox{
   \begin{tabular}{D{\dimexpr0.28\textwidth-2\tabcolsep}
                   Q{\dimexpr0.12\textwidth-2\tabcolsep}
                   D{\dimexpr0.12\textwidth-2\tabcolsep}
@@ -124,24 +123,11 @@
                   P{\dimexpr0.11\textwidth-2\tabcolsep}
                   M{\dimexpr0.12\textwidth-2\tabcolsep}
                   M{\dimexpr0.13\textwidth-2\tabcolsep}}
-  \ifodd\theline\rowcolor{Gray}\else\rowcolor{LightGray}\fi
-  \transparent{1.0}%
-    #1 &
-  \transparent{1.0}%
-    #2 &
-  \transparent{1.0}%
-    #3 &
-  \transparent{1.0}%
-    #4 &
-  \transparent{1.0}%
-    #5 &
-  \transparent{1.0}%
-    #6 &
-  \transparent{1.0}%
-    #7 
+                  #1 & #2 & #3 & #4 & #5 & #6 & #7 \tabularnewline
+                  \arrayrulecolor{Gray}\hline
   \end{tabular}
+}
   \stepcounter{line}
-  \transparent{1.0}%
 }
 
 %% MACRO: \inv@endpage
@@ -358,12 +344,12 @@
     \def\inv@subtotal{##1}
     \def\inv@total{##2}
     \begin{lrbox}{0\null\global\setbox\inv@sb@total}
-    \begin{tabular}{z{0.2\columnwidth}z{0.1\columnwidth}l}
+    \begin{tabular}{z{0.2\columnwidth}@{\parbox{2\tabcolsep}{:}}z{0.1\columnwidth}l}
     \noalign{\vspace{4pt}}
-    Subtotal:               & {\inv@subtotal}  & \\
+    Subtotal               & {\inv@subtotal}  & \\
   }{
-    Importe Otros Tributos: & {\inv@tax@total} & \\ 
-    Total:                  & {\inv@total}     & \\
+    Importe Otros Tributos & {\inv@tax@total} & \\ 
+    Total                  & {\inv@total}     & \\
     \noalign{\vspace{4pt}}
     \end{tabular}
     \end{lrbox}
