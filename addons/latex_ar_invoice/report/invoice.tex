@@ -51,7 +51,7 @@
 	\codeid{${'%02i' % o.journal_id.journal_class_id.afip_code}}
 	\type{${(o.journal_id.journal_class_id.name.split('[')[0]).strip()}}
 	\pointofsale{${'%04i' % o.journal_id.point_of_sale}}
-	\invnumber{${'%08i' % int(take(r'-(.*)\\', o.number, prefix=o.journal_id.sequence_id.prefix, suffix=o.journal_id.sequence_id.suffix))}}
+	\invnumber{${'%08i' % int(take(r'(\d*)', o.number, prefix=o.journal_id.sequence_id.prefix, suffix=o.journal_id.sequence_id.suffix))}}
 	\date{${formatLang(o.date_invoice, date=True) or 'Sin emitir'}}
 	\currency{${o.currency_id.name}}
 	\currencysymbol{${o.currency_id.symbol if not '$' else '\\$'}}
