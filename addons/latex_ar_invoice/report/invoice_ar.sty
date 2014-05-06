@@ -50,12 +50,12 @@
     \end{tabular}
     \\
     \small
-    \begin{tabular}{z{\dimexpr0.20\columnwidth-4\tabcolsep}@{\parbox{2\tabcolsep}{:}}p{\dimexpr0.30\columnwidth-2\tabcolsep}|}
+    \begin{tabular}{z{\dimexpr0.20\columnwidth-4\tabcolsep}@{\parbox{2\tabcolsep}{:}}>{\textrm\raggedright\arraybackslash}p{\dimexpr0.30\columnwidth-2\tabcolsep}|}
       Razón Social            & \inv@name         \\
       Domicilio Comercial     & \inv@address      \\
       Condición frente al IVA & \inv@taxcondition \\
     \end{tabular}
-    \begin{tabular}{z{\dimexpr0.20\columnwidth-4\tabcolsep}@{\parbox{2\tabcolsep}{:}}p{\dimexpr0.30\columnwidth-2\tabcolsep}}
+    \begin{tabular}{z{\dimexpr0.20\columnwidth-4\tabcolsep}@{\parbox{2\tabcolsep}{:}}>{\raggedright\arraybackslash}p{\dimexpr0.30\columnwidth-2\tabcolsep}}
       \inv@documenttype       & \inv@documentnumber \\
       Ingresos Brutos         & \inv@taxiibb        \\
       Inicio de Actividades   & \inv@activityinit   \\
@@ -67,15 +67,19 @@
   \hline
   \hline
     \small
-    \begin{tabular}{z{\dimexpr0.20\columnwidth-4\tabcolsep}@{\parbox{\tabcolsep}{:}}p{\dimexpr0.30\columnwidth-2\tabcolsep}}
+    \begin{tabular}{>{\bfseries}z{\dimexpr0.20\columnwidth-4\tabcolsep}@{\parbox{\tabcolsep}{:}}>{\raggedright\arraybackslash}p{\dimexpr0.30\columnwidth-2\tabcolsep}}
       \inv@customerdocumenttype & \inv@customerdocumentnumber \\
       Domicilio Comercial       & \inv@customeraddress        \\
+      \ifx\inv@salecondition\empty\else%
       Condición de Venta        & \inv@salecondition          \\
+      \fi%
     \end{tabular}
-    \begin{tabular}{z{\dimexpr0.30\columnwidth-4\tabcolsep}@{\parbox{\tabcolsep}{:}}p{\dimexpr0.20\columnwidth-2\tabcolsep}}
+    \begin{tabular}{>{\bfseries}z{\dimexpr0.30\columnwidth-4\tabcolsep}@{\parbox{\tabcolsep}{:}}>{\raggedright\arraybackslash}p{\dimexpr0.20\columnwidth-2\tabcolsep}}
       Nombre~y~Apellido / Razón~Social & \inv@customername         \\
       Condición frente al IVA          & \inv@customertaxcondition \\
+      \ifx\inv@deliverynote\empty\else%
       Remito                           & \inv@deliverynote        \\
+      \fi%
     \end{tabular}
     \\
   \hline
@@ -114,7 +118,7 @@
 %\def\linefill{\hfill}
 %\newcommand \linefill {\leavevmode \cleaders \hb@xt@ .40em{\hss .\hss }\hfill \kern \z@}
 
-\def\inv@line#1#2#3#4#5#6#7{
+\def\inv@line#1#2#3#4#5#6#7#8{
   \vbox{
   \begin{tabular}{D{\dimexpr0.28\textwidth-2\tabcolsep}
                   Q{\dimexpr0.12\textwidth-2\tabcolsep}
@@ -123,10 +127,11 @@
                   P{\dimexpr0.11\textwidth-2\tabcolsep}
                   M{\dimexpr0.12\textwidth-2\tabcolsep}
                   M{\dimexpr0.13\textwidth-2\tabcolsep}}
-                  #1 & #2 & #3 & #4 & #5 & #6 & #7 \tabularnewline
+                  #1 & #3 & #4 & #5 & #6 & #7 & #8 \tabularnewline
+                  \ifx\\#2\\\else\multicolumn{7}{|| l }{ \parbox{\columnwidth}{ \footnotesize #2 } }\tabularnewline\fi
                   \arrayrulecolor{Gray}\hline
   \end{tabular}
-}
+  }
   \stepcounter{line}
 }
 
@@ -201,9 +206,9 @@
 % #2: Accumulated amount
 % 
 \def\inv@accumulated#1#2{
-  \begin{tabular}{|p{\dimexpr0.9\textwidth-2\tabcolsep}p{\dimexpr0.1\textwidth-2\tabcolsep}|}
+  \begin{tabular}{|p{\dimexpr0.9\textwidth-4\tabcolsep}p{\dimexpr0.1\textwidth}|}
     \hline
-    \hfill #1 & \hfill #2 \inv@currencysymbol \\
+    \hfill #1 & \hfill \mbox{#2 \inv@currencysymbol} \\
     \hline
   \end{tabular}
 }
@@ -484,11 +489,11 @@
   % #7: Subtotal
   % #8: Subtotal acumulado
   %
-  \def\line##1##2##3##4##5##6##7##8{
-    \sbox\inv@sb@line{\inv@line{##1}{##2}{##3}{##4}{##5}{##6}{##7}}
+  \def\line##1##2##3##4##5##6##7##8##9{
+    \sbox\inv@sb@line{\inv@line{##1}{##2}{##3}{##4}{##5}{##6}{##7}{##8}}
     \sbox\inv@sb@footer{\inv@footer}
-    \sbox\inv@sb@transport{\inv@accumulated{Transporte:}{##8}}
-    \sbox\inv@sb@subtotal{\inv@accumulated{\inv@sbmsg}{##8}}
+    \sbox\inv@sb@transport{\inv@accumulated{Transporte:}{##9}}
+    \sbox\inv@sb@subtotal{\inv@accumulated{\inv@sbmsg}{##9}}
 
     \dimen@\pagetotal
     \advance\dimen@+3\ht\inv@sb@line

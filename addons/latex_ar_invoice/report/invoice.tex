@@ -81,7 +81,7 @@
 			 {${cuit_format(o.partner_id.document_number) if o.partner_id.document_type_id.name == "CUIT" else o.partner_id.document_number}}
 	\customertaxcondition{${o.partner_id.responsability_id.name}}
 	\customeraddress{${
-		', '.join( "\mbox{%s}" % x for x in [
+		', '.join( "%s" % x for x in [
 		o.partner_id.street or 'ERROR!',
 		o.partner_id.street2  or None,
 		o.partner_id.city or None,
@@ -141,15 +141,16 @@
 <% subtotal = 0 %>
 
 % for l in o.invoice_line:
-	\line{${l.name}}
+	<% subtotal = subtotal + l.price_calc(use_vat=not is_class(o, 'A'))[l.id] %>
+	\line{${l.product_id and l.product_id.name or l.name | tex }}
+	     {${l.product_id and '' or l.name | tex }}
 	     {${formatLang(l.quantity)}}
 	     {${l.uos_id.name}}
 	     {${formatLang(l.price_calc(use_vat=not is_class(o, 'A'), quantity=1, discount=0)[l.id])}}
 	     {${l.discount and formatLang(l.discount) or '0'}}
 	     {${l.discount and formatLang(l.price_calc(use_vat=not is_class(o, 'A'), discount=l.discount)[l.id]) or '0'}}
 	     {${formatLang(l.price_calc(use_vat=not is_class(o, 'A'))[l.id])}}
-	     {${subtotal}}
-	<% subtotal = subtotal + l.price_calc(use_vat=not is_class(o, 'A'))[l.id] %>
+	     {${formatLang(subtotal)}}
 % endfor
 
 \end{invoice}
