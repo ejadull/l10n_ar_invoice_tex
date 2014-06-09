@@ -94,11 +94,11 @@
 	\deliverynote{} %% TODO
 
 	%% Foot
-	\paymenterm{${o.payment_term and o.payment_term.name}}
+	\paymenterm{${o.payment_term and o.payment_term.name | tex}}
 	\comment{${(o.comment or '-') | tex}}
 	\authorized{Comprobante${ (o.afip_cae and ' ') or ' No '}autorizado.}
 	\cbu{${company.bank_ids and company.bank_ids[0].acc_number}}
-	\bank{${company.bank_ids and company.bank_ids[0].bank.name}}
+	\bank{${company.bank_ids and company.bank_ids[0].bank.name | tex}}
 	\cae{${o.afip_cae or '-'}}
 	\caedue{${formatLang(o.afip_cae_due, date=True) or '-'}}
 	<% barcode = "%s%02i%04i%014i%08i" % (
