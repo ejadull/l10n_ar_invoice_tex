@@ -3,7 +3,7 @@
 \usepackage{graphicx}
 \usepackage{draftwatermark}
 
-\generatedby{Generado con \LaTeX{} desde \emph{OpenERP}}
+\generatedby{Generado con \LaTeX{} desde \emph{Odoo}}
 
 \begin{document}
 
@@ -141,15 +141,15 @@
 <% subtotal = 0 %>
 
 % for l in o.invoice_line:
-	<% subtotal = subtotal + l.price_calc(use_vat=not is_class(o, 'A'))[l.id] %>
+	<% subtotal = subtotal + l.price_calc(use_vat=not is_class(o, 'A')) %>
 	\line{${l.product_id and l.product_id.name or l.name | tex }}
 	     {${l.product_id and '' or l.name | tex }}
 	     {${formatLang(l.quantity)}}
 	     {${l.uos_id.name}}
-	     {${formatLang(l.price_calc(use_vat=not is_class(o, 'A'), quantity=1, discount=0)[l.id])}}
+	     {${formatLang(l.price_calc(use_vat=not is_class(o, 'A'), quantity=1, discount=0))}}
 	     {${l.discount and formatLang(l.discount) or '0'}}
-	     {${l.discount and formatLang(l.price_calc(use_vat=not is_class(o, 'A'), discount=l.discount)[l.id]) or '0'}}
-	     {${formatLang(l.price_calc(use_vat=not is_class(o, 'A'))[l.id])}}
+	     {${l.discount and formatLang(l.price_calc(use_vat=not is_class(o, 'A'), discount=l.discount)) or '0'}}
+	     {${formatLang(l.price_calc(use_vat=not is_class(o, 'A')))}}
 	     {${formatLang(subtotal)}}
 % endfor
 

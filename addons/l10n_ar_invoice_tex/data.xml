@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 <openerp>
-    <data noupdate="1">
-	<report id="account.account_invoices_fe"
+    <data>
+	<report id="l10n_ar_wsafip_fe.l10n_ar_wsafip_fe_invoices"
 		string="Electronic Invoice"
 		model="account.invoice"
 		report_type="latex"
-		name="account.invoice_fe"
-		rml="latex_ar_invoice/report/invoice.tex"
+		name="l10n_ar_wsafip_fe.report_invoice"
+		rml="l10n_ar_invoice_tex/report/invoice.tex"
 		menu="True"
 		auto="False"
 		header="False"
