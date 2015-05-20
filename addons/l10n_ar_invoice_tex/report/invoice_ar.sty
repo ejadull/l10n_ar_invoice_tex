@@ -1,11 +1,21 @@
 \NeedsTeXFormat{LaTeX2e}[1994/12/01]
 \ProvidesPackage{invoice_ar}[2013/01/01 Invoice Document for Argentina]
 
-\RequirePackage[spanish]{babel}
+\RequirePackage{ifxetex}
 \RequirePackage[a4paper]{geometry}
+
+\ifxetex
+\RequirePackage{fontspec}
+\RequirePackage{polyglossia}
+\setmainlanguage{spanish}
+\else
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
+\RequirePackage[spanish]{babel}
 \RequirePackage{times}
+\RequirePackage{txfonts}
+\fi
+
 \RequirePackage{array}
 \RequirePackage{hyperref}
 \RequirePackage{ocr}
@@ -15,7 +25,6 @@
 \RequirePackage{rerunfilecheck}
 \RequirePackage{marvosym}
 \RequirePackage{textcomp}
-\RequirePackage{txfonts}
 \RequirePackage{transparent}
 \RequirePackage{colortbl}
 
