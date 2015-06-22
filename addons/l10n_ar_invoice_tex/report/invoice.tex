@@ -106,7 +106,7 @@
 		o.journal_id.journal_class_id.afip_code,
 		o.journal_id.point_of_sale,
 		int(o.afip_cae or 0),
-		int(o.afip_cae_due!='False' and flatdate(o.afip_cae_due) or 0)
+		int(o.afip_cae_due is not False and flatdate(o.afip_cae_due) or 0)
 		) %>
 	<% barcode =  "%s%i" % (barcode, sum( a*b for a,b in zip([3,1]*((len(barcode)/2)+1), map(int,barcode)) ) % 10) %>
 	\barcode{${barcode}} 
