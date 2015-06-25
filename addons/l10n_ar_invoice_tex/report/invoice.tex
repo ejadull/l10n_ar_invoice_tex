@@ -53,8 +53,8 @@
 	\pointofsale{${'%04i' % o.journal_id.point_of_sale}}
 	\invnumber{${'%08i' % int(take(r'(\d*)', o.number, prefix=o.journal_id.sequence_id.prefix, suffix=o.journal_id.sequence_id.suffix))}}
 	\date{${formatLang(o.date_invoice, date=True) or 'Sin emitir'}}
-	\currency{${o.currency_id.name}}
-	\currencysymbol{${o.currency_id.symbol if not '$' else '\\$'}}
+	\currency{${o.currency_id.name | tex}}
+	\currencysymbol{${o.currency_id.symbol if o.currency_id.position == 'before' else ''| tex}}{${o.currency_id.symbol if o.currency_id.position == 'after' else ''| tex}}
 
 	\name{${company.name}}
 	\address{${ 
@@ -94,7 +94,7 @@
 	\deliverynote{} %% TODO
 
 	%% Foot
-	\paymenterm{${o.payment_term and o.payment_term.name | tex}}
+	\paymenterm{${o.payment_term and o.payment_term.name or '-'| tex}}
 	\comment{${(o.comment or '-') | tex}}
 	\authorized{Comprobante${ (o.afip_cae and ' ') or ' No '}autorizado.}
 	\cbu{${company.bank_ids and company.bank_ids[0].acc_number}}
@@ -113,7 +113,7 @@
 
 %% TAXES
 
-% if not is_class(o, 'BC'):
+% if not is_class(o, 'BCE'):
   <% no_vat_taxes = [t for t in o.tax_line if t.tax_code_id.parent_id.name != 'IVA'] %>
   <% vat_taxes = [t for t in o.tax_line if t.tax_code_id.parent_id.name == 'IVA'] %>
   % if no_vat_taxes:
