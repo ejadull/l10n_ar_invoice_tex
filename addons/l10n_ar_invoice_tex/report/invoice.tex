@@ -121,15 +121,13 @@
   % for t in no_vat_taxes:
 	  {${t.tax_code_id.name | tex}} & & {${formatLang(t.factor_base)}} & {${formatLang(t.amount)}} \\\
   % endfor
-
   \end{taxes}
   % endif
 
   \begin{total}{${formatLang(o.amount_untaxed)}}{${formatLang(o.amount_total)}}
   % for t in vat_taxes:
-	  {${t.tax_code_id.name | tex}} & {${formatLang(t.amount)}} & \\\
+	${t.tax_code_id.name | tex} & ${formatLang(t.amount)| tex} \\
   % endfor
-
   \end{total}
 % else:
   \begin{total}{${formatLang(o.amount_total)}}{${formatLang(o.amount_total)}}

@@ -8,6 +8,17 @@
 \RequirePackage{fontspec}
 \RequirePackage{polyglossia}
 \setmainlanguage{spanish}
+%\setmainfont[Ligatures=TeX]{FreeSans.ttf} % No
+%\setmainfont[Ligatures=TeX]{Carlito-Regular.ttf} % Nice
+\setmainfont[
+  BoldFont={Comfortaa-Bold.ttf},
+  Ligatures=TeX
+]{Comfortaa-Regular.ttf} % Nice
+%\setmainfont[Ligatures=TeX]{RymanEco-Regular.otf} % Low ink
+%\setmainfont[Ligatures=TeX]{HammerThin-Regular.ttf}
+%\setmainfont[Ligatures=TeX]{Lato-Regular.ttf} % Casi casi
+%\setmainfont[Ligatures=TeX]{spranq_eco_sans_regular.ttf} % Low ink feo
+
 \else
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
@@ -27,6 +38,8 @@
 \RequirePackage{textcomp}
 \RequirePackage{transparent}
 \RequirePackage{colortbl}
+\RequirePackage{dcolumn}
+\RequirePackage{siunitx}
 
 \definecolor{LightCyan}{rgb}{0.88,1,1}
 \definecolor{Gray}{rgb}{0.88,0.88,0.88}
@@ -36,6 +49,9 @@
 
 \def\generatedby#1{\def\inv@generatedby{#1}}
 \generatedby{Generado con \LaTeX{}}
+
+\def\taxconditionlabel#1{\def\inv@taxconditionlabel{#1}}
+\taxconditionlabel{Condición frente al IVA}
 
 %% MACRO \inv@header
 %
@@ -57,42 +73,45 @@
       }\\ 
       \cline{2-2}
     \end{tabular}
-    \\
-    \small
-    \begin{tabular}{z{\dimexpr0.20\columnwidth-4\tabcolsep}@{\parbox{2\tabcolsep}{:}}>{\textrm\raggedright\arraybackslash}p{\dimexpr0.30\columnwidth-2\tabcolsep}|}
+    \\[3em]
+    \scriptsize
+    \begin{tabular}{x{\dimexpr0.20\columnwidth-4\tabcolsep}p{\dimexpr0.30\columnwidth-2\tabcolsep}}
       Razón Social            & \inv@name         \\
       Domicilio Comercial     & \inv@address      \\
-      Condición frente al IVA & \inv@taxcondition \\
+      \inv@taxconditionlabel  & \inv@taxcondition \\
     \end{tabular}
-    \begin{tabular}{z{\dimexpr0.20\columnwidth-4\tabcolsep}@{\parbox{2\tabcolsep}{:}}>{\raggedright\arraybackslash}p{\dimexpr0.30\columnwidth-2\tabcolsep}}
+    \begin{tabular}{x{\dimexpr0.20\columnwidth-4\tabcolsep}p{\dimexpr0.30\columnwidth-2\tabcolsep}}
       \inv@documenttype       & \inv@documentnumber \\
       Ingresos Brutos         & \inv@taxiibb        \\
       Inicio de Actividades   & \inv@activityinit   \\
     \end{tabular}
-    \\
+    \\[3em]
   \hline
   \hline
-  \hspace*{1cm} Período facturado desde \emph{\inv@servicestart} hasta \emph{\inv@serviceend}. \hfill Fecha de Vto. para el pago: \inv@paydue. \hspace*{1cm} \\
+    \\[-0.5em]
+  \hspace*{1cm} Período facturado desde \emph{\inv@servicestart} hasta \emph{\inv@serviceend}. \hfill Fecha de Vto. para el pago: \inv@paydue. \hspace*{1cm}
+    \\[0.5em]
   \hline
   \hline
-    \small
-    \begin{tabular}{>{\bfseries}z{\dimexpr0.20\columnwidth-4\tabcolsep}@{\parbox{\tabcolsep}{:}}>{\raggedright\arraybackslash}p{\dimexpr0.30\columnwidth-2\tabcolsep}}
+    \\[-0.5em]
+    \scriptsize
+    \begin{tabular}{x{\dimexpr0.20\columnwidth-4\tabcolsep}p{\dimexpr0.30\columnwidth-2\tabcolsep}}
       \inv@customerdocumenttype & \inv@customerdocumentnumber \\
       Domicilio Comercial       & \inv@customeraddress        \\
       \ifx\inv@salecondition\empty\else%
       Condición de Venta        & \inv@salecondition          \\
       \fi%
     \end{tabular}
-    \begin{tabular}{>{\bfseries}z{\dimexpr0.30\columnwidth-4\tabcolsep}@{\parbox{\tabcolsep}{:}}>{\raggedright\arraybackslash}p{\dimexpr0.20\columnwidth-2\tabcolsep}}
+    \begin{tabular}{x{\dimexpr0.30\columnwidth-4\tabcolsep}p{\dimexpr0.20\columnwidth-2\tabcolsep}}
       Nombre~y~Apellido / Razón~Social & \inv@customername         \\
       Condición frente al IVA          & \inv@customertaxcondition \\
       \ifx\inv@deliverynote\empty\else%
       Remito                           & \inv@deliverynote        \\
       \fi%
     \end{tabular}
-    \\
+  \\[2em]
   \hline
-  \end{tabular} \\
+  \end{tabular}
 }
 
 %% MACRO: \inv@desheader
@@ -100,14 +119,15 @@
 % Describe como se debe generar la cabeza de las descripciones.
 %
 \def\inv@desheader{
-    \textbf{
-    \begin{tabular}{y{\dimexpr0.28\textwidth-2\tabcolsep}
-                    y{\dimexpr0.12\textwidth-2\tabcolsep}
-                    y{\dimexpr0.12\textwidth-2\tabcolsep}
-                    y{\dimexpr0.12\textwidth-2\tabcolsep}
-                    y{\dimexpr0.12\textwidth-2\tabcolsep}
-                    y{\dimexpr0.12\textwidth-2\tabcolsep}
-                    y{\dimexpr0.12\textwidth-2\tabcolsep}}
+  \textbf{
+  \begin{tabular}{y{\dimexpr0.28\textwidth-2\tabcolsep}
+                  y{\dimexpr0.12\textwidth-2\tabcolsep}
+                  y{\dimexpr0.12\textwidth-2\tabcolsep}
+                  y{\dimexpr0.12\textwidth-2\tabcolsep}
+                  y{\dimexpr0.12\textwidth-2\tabcolsep}
+                  y{\dimexpr0.12\textwidth-2\tabcolsep}
+                  y{\dimexpr0.12\textwidth-2\tabcolsep}}
+                  \\[-0.7em]
       Producto/Servicio &
       Cantidad &
       U.Medida &
@@ -116,7 +136,7 @@
       Imp. Bonif. &
       Subtotal \tabularnewline
     \hline
-    \end{tabular}
+  \end{tabular}
   }
 }
 %% MACRO: \inv@line
@@ -129,15 +149,16 @@
 
 \def\inv@line#1#2#3#4#5#6#7#8{
   \vbox{
-  \begin{tabular}{D{\dimexpr0.28\textwidth-2\tabcolsep}
+  \begin{tabular}{E{\dimexpr0.28\textwidth-2\tabcolsep}
                   Q{\dimexpr0.12\textwidth-2\tabcolsep}
-                  D{\dimexpr0.12\textwidth-2\tabcolsep}
+                  y{\dimexpr0.12\textwidth-2\tabcolsep}
                   M{\dimexpr0.12\textwidth-2\tabcolsep}
-                  P{\dimexpr0.11\textwidth-2\tabcolsep}
+                  P{\dimexpr0.12\textwidth-2\tabcolsep}
                   M{\dimexpr0.12\textwidth-2\tabcolsep}
-                  M{\dimexpr0.13\textwidth-2\tabcolsep}}
+                  M{\dimexpr0.12\textwidth-2\tabcolsep}}
+                  \tabularnewline[-0.5em]
                   #1 & #3 & #4 & #5 & #6 & #7 & #8 \tabularnewline
-                  \ifx\\#2\\\else\multicolumn{7}{|| l }{ \parbox{\columnwidth}{ \footnotesize #2 } }\tabularnewline\fi
+                  \ifx\\#2\\\else\\[-0.5em]\multicolumn{7}{|| E{\dimexpr\textwidth-2\tabcolsep} }{ \small #2 }\tabularnewline\fi
                   \arrayrulecolor{Gray}\hline
   \end{tabular}
   }
@@ -167,7 +188,7 @@
   \begin{tabular}{|p{\dimexpr0.6\textwidth-2\tabcolsep}|p{\dimexpr0.4\textwidth-2\tabcolsep}|}
     \hline
       \parbox{\dimexpr0.6\columnwidth-6\tabcolsep}{
-        \smallskip
+        \bigskip
         El presente documento expresa su monto en {\inv@currency} {\inv@pre@currencysymbol}{\inv@pos@currencysymbol}. \\
         \smallskip
         \ifx\inv@paymenterm\empty\else
@@ -185,19 +206,19 @@
         Entidad Bancaria: {\inv@bank} \\
         \fi
         \fi
-        \smallskip
+        \bigskip
       } &
       \copy\inv@sb@total\\
     \hline
       \parbox{\dimexpr0.6\columnwidth-6\tabcolsep}{
-        \smallskip
+        \bigskip
         \textbf{\inv@authorized} \\
         \vfill
         Verifique la validez del comprobante accediendo a \\
         \footnotesize\url{http://www.afip.gob.ar/genericos/consultacae/Default.aspx}
-        \smallskip
+        \bigskip
       } &
-      \begin{tabular}{z{0.2\columnwidth}p{0.2\columnwidth}}
+      \begin{tabular}{z{0.15\columnwidth}p{0.3\columnwidth}}
           \noalign{\vspace{4pt}}
          CAE N°:      & {\inv@cae} \\
          Vencimiento: & {\inv@caedue} \\
@@ -359,12 +380,12 @@
     \def\inv@subtotal{##1}
     \def\inv@total{##2}
     \begin{lrbox}{0\null\global\setbox\inv@sb@total}
-    \begin{tabular}{z{0.2\columnwidth}@{\parbox{2\tabcolsep}{:}}z{0.1\columnwidth}l}
+      \begin{tabular}{x{0.25\columnwidth}M{\dimexpr0.10\textwidth-2\tabcolsep}}
     \noalign{\vspace{4pt}}
-    Subtotal               & \inv@pre@currencysymbol {\inv@subtotal}  & \inv@pos@currencysymbol \\
+    Subtotal               & \inv@subtotal  \\
   }{
-    Importe Otros Tributos & \inv@pre@currencysymbol {\inv@tax@total} & \inv@pos@currencysymbol \\ 
-    Total                  & \inv@pre@currencysymbol {\inv@total}     & \inv@pos@currencysymbol \\
+    Importe Otros Tributos & \inv@tax@total \\ 
+    Total                  & \inv@total     \\
     \noalign{\vspace{4pt}}
     \end{tabular}
     \end{lrbox}
@@ -433,17 +454,23 @@
 
 % - Columnas con tipos de datos
 \newcolumntype{M}[1]{% Monetarios
->{\raggedleft\hspace{0pt}\linefill\inv@pre@currencysymbol}b{#1}<{~\inv@pos@currencysymbol}
+>{\inv@pre@currencysymbol}%
+S[table-alignment=center,table-column-width=#1]%
+<{~\inv@pos@currencysymbol}%
 }%
 \newcolumntype{P}[1]{% Porcentual
->{\centering\hspace{0pt}\linefill}b{#1}<{~\%}
+  S[table-alignment=center,table-column-width=#1]<{~\%}
 }%
 \newcolumntype{Q}[1]{% Cantidad
->{\raggedleft\hspace{0pt}\linefill}b{#1}
+  S[table-alignment=center,table-column-width=#1]
 }%
-\newcolumntype{D}[1]{% Descripcion
+\newcolumntype{E}[1]{% Descripcion
 >{\raggedright\hspace{0pt}}b{#1}
 <{~\linefill}
+}%
+\newcolumntype{x}[1]{% Descripcion :
+>{\raggedleft\hspace{0pt}\linefill\bfseries}b{#1}%
+<{~:}
 }%
 
 %% BOXES: Cajas donde se renderean las partes de la factura para calcular si hay cambio de página.
@@ -465,6 +492,8 @@
   \pagestyle{empty}
   \global\inv@def@commands
   \gdef\inv@sbmsg{Subtotal:}
+
+  \sisetup{output-decimal-marker = {,}}
 
   \newgeometry{ignoreall,top=1cm,bottom=1cm,left=1cm,right=1cm}
   \setlength{\parindent}{0pt}
