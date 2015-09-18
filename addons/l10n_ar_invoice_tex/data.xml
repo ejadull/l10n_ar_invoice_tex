@@ -39,6 +39,10 @@
 					widget="selection"
 					class="oe_inline"/>
                             </div>
+                            <div>
+                                <label for="invtex_bank_id"/>
+				<field name="invtex_bank_id" class="oe_inline"/>
+                            </div>
                         </div>
                     </group>
                 </form>

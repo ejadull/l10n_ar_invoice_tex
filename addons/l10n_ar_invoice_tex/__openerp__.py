@@ -15,5 +15,5 @@
      'test/journal.yml',
      'test/invoice.yml',
      'test/invoice_print.yml'],
- 'version': '8.0.1.1'}
+ 'version': '8.0.1.2'}
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

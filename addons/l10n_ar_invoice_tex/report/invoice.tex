@@ -22,7 +22,7 @@
         return d.replace('-', '')
 
     def is_class(o, cls):
-        r = o.journal_id.journal_class_id.document_class_id.name in cls
+        r = o.journal_id.journal_class_id.document_class_id and o.journal_id.journal_class_id.document_class_id.name in cls
         return r
 
     def cuit_format(c):
@@ -38,9 +38,9 @@
 \begin{invoice}
 
 	% if o.company_id.invtex_show_bonif:
-	\noshowbonif
-	% else:
 	\showbonif
+	% else:
+	\noshowbonif
 	% endif
 
 	% if o.company_id.invtex_lines_size == "small":
@@ -64,9 +64,9 @@
 %% INVOICE INFORMATION
 	\replica{${replica}}
 	\logo{${helper.putImage(company.logo, scale=0.3)}}
-	\codename{${o.journal_id.journal_class_id.document_class_id.name}}
+	\codename{${o.journal_id.journal_class_id.document_class_id and o.journal_id.journal_class_id.document_class_id.name or 'X'}}
 	\codeid{${'%02i' % o.journal_id.journal_class_id.afip_code}}
-	\type{${(o.journal_id.journal_class_id.name.split('[')[0]).strip()}}
+	\type{${(o.journal_id.journal_class_id.name and (o.journal_id.journal_class_id.name.split('[')[0]).strip()) or '?'}}
 	\pointofsale{${'%04i' % o.journal_id.point_of_sale}}
 	\invnumber{${'%08i' % int(take(r'(\d*)', o.number, prefix=o.journal_id.sequence_id.prefix, suffix=o.journal_id.sequence_id.suffix))}}
 	\date{${formatLang(o.date_invoice, date=True) or 'Sin emitir'}}
@@ -89,7 +89,11 @@
 	\activityinit{${formatLang(company.partner_id.start_date, date=True)}}
 
 	%% Some data
+	% if o.afip_concept in (2,3):
 	\servicerange{${formatLang(o.afip_service_start, date=True)}}{${formatLang(o.afip_service_end, date=True)}}
+	% else:
+	\servicerange{}{}
+	% endif
 	\paydue{${formatLang(o.date_due, date=True)}}
 
 	%% Customer information
@@ -112,10 +116,22 @@
 
 	%% Foot
 	\paymenterm{${o.payment_term and o.payment_term.name or '-'| tex}}
-	\comment{${(o.comment or '-') | tex}}
+
+	% if o.comment:
+	\comment{${o.comment | tex}}
+	% else:
+	\comment{}
+	% endif
+
+	% if company.invtex_bank_id:
+	\cbu{${company.invtex_bank_id.acc_number}}
+	\bank{${company.invtex_bank_id.bank.name| tex}}
+	% else:
+	\cbu{}
+	\bank{}
+	% endif
+
 	\authorized{Comprobante${ (o.afip_cae and ' ') or ' No '}autorizado.}
-	\cbu{${company.bank_ids and company.bank_ids[0].acc_number}}
-	\bank{${company.bank_ids and company.bank_ids[0].bank.name | tex}}
 	\cae{${o.afip_cae or '-'}}
 	\caedue{${formatLang(o.afip_cae_due, date=True) or '-'}}
 	<% barcode = "%s%02i%04i%014i%08i" % (

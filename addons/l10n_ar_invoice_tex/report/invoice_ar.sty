@@ -99,7 +99,8 @@
   \hline
   \hline
     \\[-0.5em]
-  \hspace*{1cm} Período facturado desde \emph{\inv@servicestart} hasta \emph{\inv@serviceend}. \hfill Fecha de Vto. para el pago: \inv@paydue. \hspace*{1cm}
+    \ifx\inv@servicestart\empty\else{\hspace*{1cm} Período facturado desde \emph{\inv@servicestart} hasta \emph{\inv@serviceend}.}\fi%
+      \hfill Fecha de Vto. para el pago: \inv@paydue. \hspace*{1cm}
     \\[0.5em]
   \hline
   \hline

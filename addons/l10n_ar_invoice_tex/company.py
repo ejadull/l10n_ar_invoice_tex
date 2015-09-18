@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openerp import models, fields, api
+from openerp import models, fields
 
 
 class company(models.Model):
@@ -16,5 +16,8 @@ class company(models.Model):
         string="Line sizes in Tex Invoice",
         default='normal'
     )
-
+    invtex_bank_id = fields.Many2one(
+        "res.partner.bank",
+        string="Bank account to show in Tex Invoice",
+    )
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
