@@ -4,6 +4,16 @@
 \RequirePackage{ifxetex}
 \RequirePackage[a4paper]{geometry}
 
+\newif\ifinv@showbonif
+\inv@showboniftrue
+\def\showbonif{\inv@showboniftrue}
+\def\noshowbonif{\inv@showboniffalse}
+
+\def\inv@size@lines{\small}
+\def\smalllines{\def\inv@size@lines{\tiny}}
+\def\normallines{\def\inv@size@lines{\small}}
+\def\biglines{\def\inv@size@lines{\normalsize}}
+
 \ifxetex
 \RequirePackage{fontspec}
 \RequirePackage{polyglossia}
@@ -120,23 +130,39 @@
 %
 \def\inv@desheader{
   \textbf{
-  \begin{tabular}{y{\dimexpr0.28\textwidth-2\tabcolsep}
-                  y{\dimexpr0.12\textwidth-2\tabcolsep}
-                  y{\dimexpr0.12\textwidth-2\tabcolsep}
-                  y{\dimexpr0.12\textwidth-2\tabcolsep}
-                  y{\dimexpr0.12\textwidth-2\tabcolsep}
-                  y{\dimexpr0.12\textwidth-2\tabcolsep}
-                  y{\dimexpr0.12\textwidth-2\tabcolsep}}
-                  \\[-0.7em]
-      Producto/Servicio &
-      Cantidad &
-      U.Medida &
-      Precio Unit. &
-      Bonif. &
-      Imp. Bonif. &
-      Subtotal \tabularnewline
-    \hline
-  \end{tabular}
+    \ifinv@showbonif
+      \begin{tabular}{y{\dimexpr0.28\textwidth-2\tabcolsep}
+                      y{\dimexpr0.12\textwidth-2\tabcolsep}
+                      y{\dimexpr0.12\textwidth-2\tabcolsep}
+                      y{\dimexpr0.12\textwidth-2\tabcolsep}
+                      y{\dimexpr0.12\textwidth-2\tabcolsep}
+                      y{\dimexpr0.12\textwidth-2\tabcolsep}
+                      y{\dimexpr0.12\textwidth-2\tabcolsep}}
+                      \\[-0.7em]
+          Producto/Servicio &
+          Cantidad &
+          U.Medida &
+          Precio Unit. &
+          Bonif. &
+          Imp. Bonif. &
+          Subtotal \tabularnewline
+        \hline
+      \end{tabular}
+    \else
+      \begin{tabular}{y{\dimexpr0.48\textwidth-2\tabcolsep}
+                      y{\dimexpr0.12\textwidth-2\tabcolsep}
+                      y{\dimexpr0.12\textwidth-2\tabcolsep}
+                      y{\dimexpr0.12\textwidth-2\tabcolsep}
+                      y{\dimexpr0.15\textwidth-2\tabcolsep}}
+                      \\[-0.7em]
+          Producto/Servicio &
+          Cantidad &
+          U.Medida &
+          Precio Unit. &
+          Subtotal \tabularnewline
+        \hline
+      \end{tabular}
+    \fi
   }
 }
 %% MACRO: \inv@line
@@ -149,18 +175,32 @@
 
 \def\inv@line#1#2#3#4#5#6#7#8{
   \vbox{
-  \begin{tabular}{E{\dimexpr0.28\textwidth-2\tabcolsep}
-                  Q{\dimexpr0.12\textwidth-2\tabcolsep}
-                  y{\dimexpr0.12\textwidth-2\tabcolsep}
-                  M{\dimexpr0.12\textwidth-2\tabcolsep}
-                  P{\dimexpr0.12\textwidth-2\tabcolsep}
-                  M{\dimexpr0.12\textwidth-2\tabcolsep}
-                  M{\dimexpr0.12\textwidth-2\tabcolsep}}
-                  \tabularnewline[-0.5em]
-                  #1 & #3 & #4 & #5 & #6 & #7 & #8 \tabularnewline
-                  \ifx\\#2\\\else\\[-0.5em]\multicolumn{7}{|| E{\dimexpr\textwidth-2\tabcolsep} }{ \small #2 }\tabularnewline\fi
-                  \arrayrulecolor{Gray}\hline
-  \end{tabular}
+    \inv@size@lines{
+    \ifinv@showbonif
+      \begin{tabular}{E{\dimexpr0.28\textwidth-2\tabcolsep}
+                      Q{\dimexpr0.12\textwidth-2\tabcolsep}
+                      y{\dimexpr0.12\textwidth-2\tabcolsep}
+                      M{\dimexpr0.12\textwidth-2\tabcolsep}
+                      P{\dimexpr0.12\textwidth-2\tabcolsep}
+                      M{\dimexpr0.12\textwidth-2\tabcolsep}
+                      M{\dimexpr0.12\textwidth-2\tabcolsep}}
+                      \tabularnewline[-0.5em]
+                      #1 & #3 & #4 & #5 & #6 & #7 & #8 \tabularnewline
+                      \ifx\\#2\\\else\\[-0.5em]\multicolumn{7}{|| E{\dimexpr\textwidth-2\tabcolsep} }{ #2 }\tabularnewline\fi
+                      \arrayrulecolor{Gray}\hline
+      \end{tabular}
+    \else
+      \begin{tabular}{E{\dimexpr0.48\textwidth-2\tabcolsep}
+                      Q{\dimexpr0.12\textwidth-2\tabcolsep}
+                      y{\dimexpr0.12\textwidth-2\tabcolsep}
+                      M{\dimexpr0.12\textwidth-2\tabcolsep}
+                      M{\dimexpr0.15\textwidth-2\tabcolsep}}
+                      \tabularnewline[-0.5em]
+                      #1 & #3 & #4 & #5 & #8 \tabularnewline
+                      \ifx\\#2\\\else\\[-0.5em]\multicolumn{5}{|| E{\dimexpr\textwidth-2\tabcolsep} }{ #2 }\tabularnewline\fi
+                      \arrayrulecolor{Gray}\hline
+      \end{tabular}
+    \fi}
   }
   \stepcounter{line}
 }

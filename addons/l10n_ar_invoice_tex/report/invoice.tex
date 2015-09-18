@@ -4,6 +4,7 @@
 \usepackage{draftwatermark}
 
 \generatedby{Generado con \LaTeX{} desde \emph{Odoo}}
+\showbonif
 
 \begin{document}
 
@@ -35,6 +36,22 @@
 % for replica in ['ORIGINAL','DUPLICADO','TRIPLICADO']:  
 
 \begin{invoice}
+
+	% if o.company_id.invtex_show_bonif:
+	\noshowbonif
+	% else:
+	\showbonif
+	% endif
+
+	% if o.company_id.invtex_lines_size == "small":
+	\smalllines
+	% endif
+	% if o.company_id.invtex_lines_size == "normal":
+	\normallines
+	% endif
+	% if o.company_id.invtex_lines_size == "big":
+	\biglines
+	% endif
 
 % if o.state=="draft":
 	\SetWatermarkText{BORRADOR}

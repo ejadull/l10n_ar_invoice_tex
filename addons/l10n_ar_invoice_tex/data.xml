@@ -1,16 +1,60 @@
 <?xml version="1.0" ?>
 <openerp>
     <data>
-	<report id="l10n_ar_wsafip_fe.l10n_ar_wsafip_fe_invoices"
-		string="Electronic Invoice"
-		model="account.invoice"
-		report_type="tex"
-		name="l10n_ar_wsafip_fe.report_invoice"
-		rml="l10n_ar_invoice_tex/report/invoice.tex"
-		menu="True"
-		auto="False"
-		header="False"
-		attachment="(object.state in ('open','paid')) and ('DOC'+(object.number or '').replace('/','')+'.pdf')"
-		attachment_use="1"/>
+        <report id="l10n_ar_wsafip_fe.l10n_ar_wsafip_fe_invoices"
+                string="Electronic Invoice"
+                model="account.invoice"
+                report_type="tex"
+                name="l10n_ar_wsafip_fe.report_invoice"
+                rml="l10n_ar_invoice_tex/report/invoice.tex"
+                menu="True"
+                auto="False"
+                header="False"
+                attachment="(object.state in ('open','paid')) and ('DOC'+(object.number or '').replace('/','')+'.pdf')"
+                attachment_use="1"/>
+
+        <record id="l10n_ar_invoice_tex_config_form" model="ir.ui.view">
+            <field name="name">Invoice Report</field>
+            <field name="model">l10n_ar_invoice_tex.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Invoice Report" class="oe_form_configuration">
+                    <header>
+                        <button string="Save" type="object"
+                            name="execute" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" type="object"
+                            name="cancel" class="oe_link"/>
+                    </header>
+                    <group string="Invoice Printing">
+                        <label for="id" string="Configuración de facturas en Tex"/>
+                        <div>
+                            <div>
+                                <label for="invtex_show_bonif"/>
+				<field name="invtex_show_bonif"
+					class="oe_inline"/>
+                            </div>
+                            <div>
+                                <label for="invtex_lines_size"/>
+				<field name="invtex_lines_size"
+					widget="selection"
+					class="oe_inline"/>
+                            </div>
+                        </div>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="l10n_ar_invoice_tex_config_action" model="ir.actions.act_window">
+            <field name="name">Invoice Report</field>
+            <field name="res_model">l10n_ar_invoice_tex.config.settings</field>
+            <field name="view_id" ref="l10n_ar_invoice_tex_config_form"/>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem id="l10n_ar_invoice_tex_config_menu" name="Invoice Report"
+                parent="base.menu_config" action="l10n_ar_invoice_tex_config_action"/>
+
     </data>
 </openerp>

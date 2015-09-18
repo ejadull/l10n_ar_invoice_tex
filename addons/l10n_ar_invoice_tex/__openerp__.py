@@ -8,5 +8,12 @@
  'installable': True,
  'name': 'Invoice Tex Engine for Argentina',
  'url': 'http://moldeo.coop/',
+ 'test': [
+     'test/partners.yml',
+     'test/products.yml',
+     'test/com_ri1.yml',
+     'test/journal.yml',
+     'test/invoice.yml',
+     'test/invoice_print.yml'],
  'version': '8.0.1.1'}
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
