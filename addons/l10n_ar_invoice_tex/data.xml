@@ -13,6 +13,24 @@
                 attachment="(object.state in ('open','paid')) and ('DOC'+(object.number or '').replace('/','')+'.pdf')"
                 attachment_use="1"/>
 
+	<record id="l10n_ar_invoice_tex_company_form" model="ir.ui.view">
+            <field name="name">Latex invoice in company form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="25"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='Report Configuration']" position="inside">
+		    <group string="Configuration (Latex)">
+			<separator string="Invoice" colspan="2">
+                        <field name="invtex_show_bonif"/>
+                        <field name="invtex_lines_size"/>
+                        <field name="invtex_bank_id"/>
+                        <field name="invtex_copies"/>
+                    </group>
+		</xpath>
+	    </field>
+	</record>
+
         <record id="l10n_ar_invoice_tex_config_form" model="ir.ui.view">
             <field name="name">Invoice Report</field>
             <field name="model">l10n_ar_invoice_tex.config.settings</field>
@@ -41,7 +59,14 @@
                             </div>
                             <div>
                                 <label for="invtex_bank_id"/>
-				<field name="invtex_bank_id" class="oe_inline"/>
+				<field name="invtex_bank_id"
+					class="oe_inline"/>
+                            </div>
+                            <div>
+                                <label for="invtex_copies"/>
+				<field name="invtex_copies"
+					widget="selection"
+					class="oe_inline"/>
                             </div>
                         </div>
                     </group>

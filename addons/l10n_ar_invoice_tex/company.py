@@ -21,9 +21,9 @@ class company(models.Model):
         string="Bank account to show in Tex Invoice",
     )
     invtex_copies = fields.Selection(
-        selection=[('1', 'original only'),
-                   ('2', 'original and duplicate'),
-                   ('3', 'original, duplicate, and triplicate')],
+        selection=[('1', 'Original only'),
+                   ('2', 'Original and duplicate'),
+                   ('3', 'Original, duplicate, and triplicate')],
         string="Invoice copies",
         default='3',
     )

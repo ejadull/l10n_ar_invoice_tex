@@ -29,19 +29,19 @@
 	cuit_string = '{0}-{1}-{2}'.format(c[:2], c[2:-1], c[-1]) if len(c)>4 else c
         return cuit_string
 
+    def get_replica_list(company):
+	replica_list = ['ORIGINAL']
+	if company.invtex_copies > 1:
+	   replica_list.append('DUPLICADO')
+	if company.invtex_copies > 2:
+	   replica_list.append('TRIPLICADO')
+	return replica_list
+
 %>
 
 % for o in objects:
 
-<%!
-    replica_list = ['ORIGINAL']
-    if o.company_id.invtex_copies > 1:
-       replica_list.append('DUPLICADO')
-    if o.company_id.invtex_copies > 2:
-       replica_list.append('TRIPLICADO')
-%>
-
-% for replica in replica_list:
+% for replica in get_replica_list(o.company_id):
 
 \begin{invoice}
 
