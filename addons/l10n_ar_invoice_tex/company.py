@@ -20,4 +20,12 @@ class company(models.Model):
         "res.partner.bank",
         string="Bank account to show in Tex Invoice",
     )
+    invtex_copies = fields.Selection(
+        selection=[('1', 'original only'),
+                   ('2', 'original and duplicate'),
+                   ('3', 'original, duplicate, and triplicate')],
+        string="Invoice copies",
+        default='3',
+    )
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -31,9 +31,17 @@
 
 %>
 
-% for o in objects:  
+% for o in objects:
 
-% for replica in ['ORIGINAL','DUPLICADO','TRIPLICADO']:  
+<%!
+    replica_list = ['ORIGINAL']
+    if o.company_id.invtex_copies > 1:
+       replica_list.append('DUPLICADO')
+    if o.company_id.invtex_copies > 2:
+       replica_list.append('TRIPLICADO')
+%>
+
+% for replica in replica_list:
 
 \begin{invoice}
 

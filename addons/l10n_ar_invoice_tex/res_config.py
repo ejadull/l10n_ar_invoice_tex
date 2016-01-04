@@ -22,6 +22,14 @@ class invoice_tex_config_settings(models.TransientModel):
         "res.partner.bank",
         string="Bank account to show in Tex Invoice",
     )
+    invtex_copies = fields.Selection(
+        selection=[('1', 'original only'),
+                   ('2', 'original and duplicate'),
+                   ('3', 'original, duplicate, and triplicate')],
+        string="Invoice copies",
+        default='3',
+        required=True
+    )
 
     @api.model
     def get_default_company_values(self, fields):
@@ -30,6 +38,7 @@ class invoice_tex_config_settings(models.TransientModel):
             'invtex_show_bonif': company.invtex_show_bonif,
             'invtex_lines_size': company.invtex_lines_size,
             'invtex_bank_id': company.invtex_bank_id.id,
+            'invtex_copies': company.invtex_copies,
         }
 
     @api.one
@@ -38,5 +47,6 @@ class invoice_tex_config_settings(models.TransientModel):
         company.invtex_show_bonif = self.invtex_show_bonif
         company.invtex_lines_size = self.invtex_lines_size
         company.invtex_bank_id = self.invtex_bank_id
+        company.invtex_copies = self.invtex_copies
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
