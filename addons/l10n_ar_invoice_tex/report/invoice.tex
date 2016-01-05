@@ -30,11 +30,11 @@
         return cuit_string
 
     def get_replica_list(company):
-	replica_list = ['ORIGINAL']
+	replica_list = ['ORIGINALx %s' % company.invtex_copies]
 	if company.invtex_copies > 1:
-	   replica_list.append('DUPLICADO')
+	   replica_list.append('DUPLICADOx')
 	if company.invtex_copies > 2:
-	   replica_list.append('TRIPLICADO')
+	   replica_list.append('TRIPLICADOx')
 	return replica_list
 
 %>
